@@ -1,0 +1,51 @@
+.homepage-body {
+    background-image: url(/images/background.jpg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover;
+    position: relative;
+    height: 92vh;
+}
+
+.hp-row {
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.header-content {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    color: white;
+}
+
+.header-content h3 {
+    font-size: 95px;
+}
+
+
+.header-content h5 {
+    font-size: 40px;
+    margin-bottom: 30px;
+    opacity: 0.8;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color:rgba(0, 0, 0, .4);
+}
+
+.hp-btn {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 0px;
+}
+
+.hp-btn:hover {
+    background-color: rgba(192, 192, 192, 0.5);
+}

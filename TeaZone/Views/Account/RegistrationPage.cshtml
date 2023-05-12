@@ -1,0 +1,176 @@
+﻿@{
+    Layout = "_AccountLayout";
+}
+
+@model (string, string, string)
+
+<section class="vh-100">
+    <form name="form" method="post" onsubmit="event.preventDefault();">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card bg-dark text-white" style="border-radius: 1rem;">
+                        <div class="card-body p-5 text-center">
+                            <div class="">
+                                <h2 class="fw-bold mb-2">Регистрация</h2>
+                                <br>
+                                
+                                <div class="form-outline form-white mb-4 text-start">
+                                    <label class="form-label text-start" for="typeEmailX" title="Используйте только латинские буквы или цифры.@Environment.NewLine.ToString()Длина логина должна быть от 4 до 16 символов">Введите логин</label>
+                                    <input type="text" name="login" id="login" value="@Model.Item1" placeholder="Используется для входа в систему" style="font-size: 16px;" @*required minlength="4" maxlength="16"*@ oninput="delete_space('login')" class="form-control form-control-lg" />
+                                    @if (ViewBag.Login != null)
+                                    {
+                                        <label class="text-start" id="messageLogin" style="padding-top: 10px; color: red; font-size: 14px;">@ViewBag.Login</label>   
+                                    }
+                                </div>
+
+                                <div class="form-outline form-white mb-4 text-start">
+                                    <label class="form-label" for="typePasswordX" title="Используйте только кириллицу.@Environment.NewLine.ToString()Длина имени должна быть от 2 до 16 символов">Введите ваше имя</label>
+                                    <input type="text" name="nameuser" id="nameuser" value="@Model.Item2" placeholder="Имя для отображения на сайте" style="font-size: 16px;" @*required minlength="2" maxlength="16"*@ oninput="delete_space('nameuser')" class="form-control form-control-lg" />
+                                    @if (ViewBag.Name != null)
+                                    {
+                                        <label class="text-start" id="messageName" style="padding-top: 10px; color: red; font-size: 14px;">@ViewBag.Name</label>   
+                                    }
+                                </div>
+
+                                <div class="form-outline form-white mb-4 text-start">
+                                    <label class="form-label" for="typePasswordX" title="Введите вашу электронную почту">Введите ваш email</label>
+                                    <input type="email" name="email" id="email" value="@Model.Item3" placeholder="Используется для входа в систему" style="font-size: 16px;" @*required*@ oninput="delete_space('email')" class="form-control form-control-lg" />
+                                    @if (ViewBag.Email != null)
+                                    {
+                                        <label class="text-start" id="messageEmail" style="padding-top: 10px; color: red; font-size: 14px;">@ViewBag.Email</label>
+                                    }
+                                </div>
+
+                                <br>
+                                
+                                <div class="form-outline form-white mb-4 text-start">
+                                    <label class="form-label" for="typePasswordX" title="Используйте только латинские буквы, кириллицу или цифры.@Environment.NewLine.ToString()Длина пароля от 8 до 16 символов">Введите пароль</label>
+                                    <input type="password" name="password" id="password" placeholder="Используется для входа в систему" style="font-size: 16px;" @*required minlength="8" maxlength="16"*@ oninput="delete_space('password')" class="form-control form-control-lg" />
+                                    @if (ViewBag.Password != null)
+                                    {
+                                        <label class="text-start" id="messagePassword" style="padding-top: 10px; color: red; font-size: 14px;">@ViewBag.Password</label>   
+                                    }
+                                </div>
+
+                                <div class="form-outline form-white mb-4 text-start">
+                                    <label class="form-label" for="typePasswordX" title="Используйте только латинские буквы, кириллицу или цифры.@Environment.NewLine.ToString()Длина пароля от 8 до 16 символов">Подтвердите пароль</label>
+                                    <input type="password" name="conpassword" id="conpassword" placeholder="Используется для входа в систему" style="font-size: 16px;" @*required minlength="8" maxlength="16"*@ oninput="delete_space('conpassword')" class="form-control form-control-lg" />
+                                    @if (ViewBag.Conpassword != null)
+                                    {
+                                        <label class="text-start" id="messageConpassword" style="padding-top: 10px; color: red; font-size: 14px;">@ViewBag.Conpassword</label>   
+                                    }
+                                </div>
+                                
+                                <button class="btn btn-outline-light btn-lg px-5 mt-3" type="submit" onclick="validate_form()">Готово</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+<script type="text/javascript">
+    
+    function delete_space(id){
+        var input = document.getElementById(id)
+        input.value = input.value.split(' ').join('');
+
+        if (id == "login")
+        {
+            if (input.value.length < 4 || input.value.length > 16)
+                input.style.boxShadow = "0 0 20px red";
+            else
+                input.style.boxShadow = "none";
+        }
+
+        if (id == "nameuser")
+        {
+            if (input.value.length < 2 || input.value.length > 16)
+                input.style.boxShadow = "0 0 20px red";
+            else
+                input.style.boxShadow = "none";
+        }
+
+        if (id == "email")
+        {
+            if (input.value.length < 1)
+                input.style.boxShadow = "0 0 20px red";
+            else
+                input.style.boxShadow = "none";
+        }
+
+        if (id == "password" || id == "conpassword")
+        {
+            if (input.value.length < 8 || input.value.length > 16)
+                input.style.boxShadow = "0 0 20px red";
+            else
+                input.style.boxShadow = "none";
+        }
+
+        if (input.value == "")
+            input.style.boxShadow = "none";
+    }
+
+    function validate_form ()
+    {
+        if (login.value.length < 4 || login.value.length > 16)
+        {
+            login.style.boxShadow = "0 0 20px red";
+            return;
+        }
+
+        if (nameuser.value.length < 2 || nameuser.value.length > 16)
+        {
+            nameuser.style.boxShadow = "0 0 20px red";
+            return;
+        }
+
+        if (email.value.length < 1)
+        {
+            email.style.boxShadow = "0 0 20px red";
+            return;
+        }
+
+        if (password.value.length < 8 || password.value.length > 16)
+        {
+            password.style.boxShadow = "0 0 20px red";
+            return;
+        }
+
+        if (conpassword.value.length < 8 || conpassword.value.length > 16)
+        {
+            conpassword.style.boxShadow = "0 0 20px red";
+            return;
+        }
+
+        if (password.value != conpassword.value)
+        {
+            password.style.boxShadow = "0 0 20px red";
+            conpassword.style.boxShadow = "0 0 20px red";
+            return;
+        }
+
+        document.form.submit();
+    }
+
+    setTimeout(function () {
+        if (document.getElementById('messageLogin') !== null)
+            document.getElementById('messageLogin').style.display = 'none';
+
+        if (document.getElementById('messageName') !== null)
+            document.getElementById('messageName').style.display = 'none';
+
+        if (document.getElementById('messageEmail') !== null)
+            document.getElementById('messageEmail').style.display = 'none';
+
+        if (document.getElementById('messagePassword') !== null)
+            document.getElementById('messagePassword').style.display = 'none';
+
+        if (document.getElementById('messageConpassword') !== null)
+            document.getElementById('messageConpassword').style.display = 'none';
+    }, 5000);
+
+</script>

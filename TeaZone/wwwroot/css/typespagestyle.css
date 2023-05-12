@@ -1,0 +1,123 @@
+.typespage-body {
+    background-image: url(/images/pattern.png);
+    background-repeat: repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: 600px 600px;
+    position: relative;
+    height: 92vh;
+    color: black;
+}
+
+.circle {
+    width: 200px;
+    height: 200px;
+    line-height: 200px;
+    border-radius: 50%;
+    font-size: 35px;
+    color: white;
+    text-align: center;
+    background: #8b7f7a;
+}
+
+.circle-big {
+    width: 350px;
+    height: 350px;
+    line-height: 350px;
+    border-radius: 50%;
+    font-size: 50px;
+    color: #fff;
+    text-align: center;
+    vertical-align: middle;
+    background: #8b7f7a;
+    position: relative;
+}
+
+.circle:hover {
+    background: #c8b9b3;
+    -webkit-box-shadow: 0px 5px 43px 2px rgba(200, 185, 179, 1);
+    -moz-box-shadow: 0px 5px 43px 2px rgba(200, 185, 179, 1);
+    box-shadow: 0px 5px 43px 2px rgba(200, 185, 179, 1);
+}
+
+.circle-big:hover {
+    background: #c8b9b3;
+    -webkit-box-shadow: 0px 5px 43px 2px rgba(200, 185, 179, 1);
+    -moz-box-shadow: 0px 5px 43px 2px rgba(200, 185, 179, 1);
+    box-shadow: 0px 5px 43px 2px rgba(200, 185, 179, 1);
+}
+
+.inner-text {
+    line-height: normal;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.type-link {
+    text-decoration: none;
+}
+
+@media(max-width: 1000px){
+
+    .middle-type {
+        justify-content: space-between;
+    }
+
+    .circle-big {
+        width: 250px;
+        height: 250px;
+        line-height: 250px;
+    }
+
+    .types-img {
+        height: 125px;
+    }
+}
+
+@media(max-width: 770px) {
+
+    .circle {
+        width: 150px;
+        height: 150px;
+        line-height: 150px;
+        font-size: 25px;
+    }
+
+    .circle-big {
+        width: 175px;
+        height: 175px;
+        line-height: 175px;
+    }
+
+    .types-img {
+        height: 80px;
+    }
+
+    .greentea {
+        float:left;
+    }
+}
+
+@media(max-width: 550px) {
+
+    .circle {
+        width: 100px;
+        height: 100px;
+        line-height: 100px;
+        font-size: 18px;
+    }
+
+    .circle-big {
+        width: 125px;
+        height: 125px;
+        line-height: 125px;
+    }
+
+    .types-img {
+        height: 60px;
+    }
+
+    .greentea {
+        float: left;
+    }
+}

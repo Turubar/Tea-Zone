@@ -1,0 +1,22 @@
+﻿.hp-name {
+    font-size: 20px;
+}
+
+.footer-tab {
+    font-size: 18px;
+    color: black;
+}
+
+.footer-tab:hover {
+    color: grey;
+}
+
+@media(max-width: 575px){
+    .footer-media {
+        flex-direction: column;
+    }
+
+    .footer-nav {
+        padding-top: 10px;
+    }
+}

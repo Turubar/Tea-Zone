@@ -1,0 +1,44 @@
+﻿<div class="container-fluid border-bottom">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between my-3">
+        <a asp-controller="Main" asp-action="HomePage"  class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+            <span class="name-shop">Tea <img src="~/images/logo.png" class="logo-display" style="width: 40px; margin-top: -6px;"/>
+                <img src="~/images/logo_selected.png" class="logo_sel-display" style="width: 40px; margin-top: -6px; display: none;"/>
+                                    Zone</span>
+        </a>
+
+        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+            <li><a asp-controller="Main" asp-action="HomePage"  class="nav-link px-2 header-tab hp-header">Главная</a></li>
+            <li><a asp-controller="Main" asp-action="TeaTypesPage"  class="nav-link px-2 header-tab tp-header">Виды чая</a></li>
+            <li><a asp-controller="Main" asp-action="ProductsPage"  class="nav-link px-2 header-tab pp-header">Товары</a></li>
+        </ul>
+
+        @if(User.Identity?.IsAuthenticated == true)
+        {
+            <div class="col-md-3 text-end">
+                <div class="btn-group">
+                    <a asp-controller="Account" asp-action="ProfilePage" class="btn btn-success dd-user">@User.FindFirst("Name")?.Value</a>
+                    <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split dts" style="border: 0px;" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="visually-hidden">Переключатель выпадающего списка</span>
+                    </button>
+                    <ul class="dropdown-menu" style="">
+                        <li><a class="dropdown-item" asp-controller="Account" asp-action="ProfilePage" >Профиль</a></li>
+                        <li><a class="dropdown-item" asp-controller="Account" asp-action="CartPage" >Корзина</a></li>
+                        <li><a class="dropdown-item" asp-controller="Account" asp-action="LogoutPage" >Выйти</a></li>
+                    </ul>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="col-md-3 text-end">
+                <a type="button" asp-controller="Account" asp-action="EntryPage" class="btn btn-success" style="background-color: #526325;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 18">
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"></path>
+                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"></path>
+                </svg>
+                Войти
+              </a>
+            </div>
+        }
+    </header>
+</div>

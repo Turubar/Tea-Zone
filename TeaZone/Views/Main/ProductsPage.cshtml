@@ -1,0 +1,304 @@
+﻿<style>
+    .logo_sel-display {
+        display: none;
+    }
+
+    .pp-header {
+        color: #526325;
+        background-color: silver;
+        border-radius: 10px;
+    }
+
+    .pp-tab {
+        color: #526325;
+        background-color: silver;
+        border-radius: 10px;
+    }
+</style>
+
+@model (TeaZone.Models.Entities.Type, (List<long> idProduct, List<string> nameProduct, List<string> descProduct, List<byte[]> img1, List<byte[]> img2, List<byte[]> img3, List<byte[]> img4, List<byte[]> img5, List<int> form, List<List<float>> priceGram, List<List<string>> elementSet, List<List<float>> priceProduct, List<List<float>> priceDiscount)?)
+
+@{
+    var type = Model.Item1;
+    var dataModel = Model.Item2.Value;
+}
+
+<div class="container-fluid products-main">
+    <div class="row">
+
+        @*Боковая панель------------------------------*@
+        <div class="col-2 col-xl-2 col-md-2 col-sm-2 d-flex flex-column flex-shrink-0 p-3 text-white bg-dark vh-100 sticky-top products-menu">
+            <ul class="nav nav-pills flex-column mb-auto fs-5">
+                <li>
+                    <a href="/Main/ProductsPage/1" class="nav-link @if(Model.Item1.Name == "Пуэр"){<text>pm-tab-sel disabled</text>} else{<text>pm-tab</text>} text-white">Пуэр</a>
+                </li>
+
+                <li class="mt-2">
+                    <a href="/Main/ProductsPage/2" class="nav-link @if(Model.Item1.Name == "Улун"){<text>pm-tab-sel disabled</text>} else{<text>pm-tab</text>} text-white">Улун</a>
+                </li>
+
+                <li class="mt-2">
+                    <a href="/Main/ProductsPage/3" class="nav-link @if(Model.Item1.Name == "Зеленый чай"){<text>pm-tab-sel disabled</text>} else{<text>pm-tab</text>} text-white">Зеленый чай</a>
+                </li>
+
+                <li class="mt-2">
+                    <a href="/Main/ProductsPage/4" class="nav-link @if(Model.Item1.Name == "Красный чай"){<text>pm-tab-sel disabled</text>} else{<text>pm-tab</text>} text-white">Красный чай</a>
+                </li>
+
+                <li class="mt-2">
+                    <a href="/Main/ProductsPage/5" class="nav-link @if(Model.Item1.Name == "Белый чай"){<text>pm-tab-sel disabled</text>} else{<text>pm-tab</text>} text-white">Белый чай</a>
+                </li>
+
+                <li class="mt-2">
+                    <a href="/Main/ProductsPage/6" class="nav-link @if(Model.Item1.Name == "Хэй ча"){<text>pm-tab-sel disabled</text>} else{<text>pm-tab</text>} text-white">Хэй ча</a>
+                </li>
+            </ul>
+        </div>
+        @*Боковая панель------------------------------*@
+
+        @*Панель с товарами---------------------------*@
+        <div class="col-7 col-xl-9 col-md-8 col-sm-7 container-fluid products-card pt-3">
+
+            @*Панель типа чая-------------------------*@
+            <div class="row type-card">
+
+                <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12" style="margin: 0;">
+                    <div class="row h-25 align-items-center" style="padding-top: 10px;">
+                        <h1 style="color: white; font-size: 45px; margin-left: 5px;">@Model.Item1.Name</h1>
+                    </div>
+
+                    <div class="row h-75 align-items-center">
+                        <p class="desc-type scroll-style" style="color: white; font-size: 18px; margin-left: 5px;">@Model.Item1.Description</p>
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-lg-7 col-md-8 col-sm-8 col-8 img-type" style="padding: 15px;">
+                    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 0"></button>
+                        </div>
+                        <div class="carousel-inner">
+                            <div class="carousel-item w-100 active carousel-img" data-bs-interval="2000" style="background-image: url(data:image/jpg;base64,@(Convert.ToBase64String(type.Image1)));"></div>
+                            <div class="carousel-item w-100 carousel-img" style="background-image: url(data:image/jpg;base64,@(Convert.ToBase64String(type.Image2)));"></div>
+                            <div class="carousel-item w-100 carousel-img" style="background-image: url(data:image/jpg;base64,@(Convert.ToBase64String(type.Image3)));"></div>
+                            <div class="carousel-item w-100 carousel-img" style="background-image: url(data:image/jpg;base64,@(Convert.ToBase64String(type.Image4)));"></div>
+                            <div class="carousel-item w-100 carousel-img" style="background-image: url(data:image/jpg;base64,@(Convert.ToBase64String(type.Image5)));"></div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Предыдущий</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Следующий</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+            @*Панель типа чая-------------------------*@
+
+
+            @*Панель товаров--------------------------*@
+            <div class="row">
+                <div class="col-12" style="padding: 0;">
+                    @*------------------------------------------------------------------------------------------------------*@
+
+                    <div class="container-fluid mt-5 mb-5">
+                        <div class="">
+                            <div class="col-12">
+                                
+                                @for(int i = 0; i < dataModel.idProduct.Count(); i++)
+                                {
+                                    <div class="row p-2 bg-white @if(i != 0){<text>mt-2</text>} border product-card">
+
+                                        <div class="col-xl-4 col-lg-10 col-md-10 col-sm-10 col-10 my-2 carousel slide product-card product-carousel" id="@{<text>product-carousel</text>}@i">
+
+                                            <div class="carousel-inner">
+                                                @if (dataModel.img1[i] != null)
+                                                {
+                                                    <div class="carousel-item w-100 active product-img" style="background-image: url(data:image/jpg;base64,@(Convert.ToBase64String(dataModel.img1[i])));"></div>
+                                                }
+                                                
+                                                @if (dataModel.img2[i] != null)
+                                                {
+                                                    <div class="carousel-item w-100 product-img" style="background-image: url(data:image/jpg;base64,@(Convert.ToBase64String(dataModel.img2[i])));"></div>
+                                                }
+
+                                                @if (dataModel.img3[i] != null)
+                                                {
+                                                    <div class="carousel-item w-100 product-img" style="background-image: url(data:image/jpg;base64,@(Convert.ToBase64String(dataModel.img3[i])));"></div>
+                                                }
+
+                                                @if (dataModel.img4[i] != null)
+                                                {
+                                                    <div class="carousel-item w-100 product-img" style="background-image: url(data:image/jpg;base64,@(Convert.ToBase64String(dataModel.img4[i])));"></div>
+                                                }
+
+                                                @if (dataModel.img5[i] != null)
+                                                {
+                                                    <div class="carousel-item w-100 product-img" style="background-image: url(data:image/jpg;base64,@(Convert.ToBase64String(dataModel.img5[i])));"></div>
+                                                }
+                                            </div>
+                                            <button class="carousel-control-prev" type="button" data-bs-target="@{<text>#product-carousel</text>}@i" data-bs-slide="prev">
+                                                <span class="carousel-control-prev-icon carousel-arrow-left" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Предыдущий</span>
+                                            </button>
+                                            <button class="carousel-control-next" type="button" data-bs-target="@{<text>#product-carousel</text>}@i" data-bs-slide="next">
+                                                <span class="carousel-control-next-icon carousel-arrow-right" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Следующий</span>
+                                            </button>
+
+                                        </div>
+
+                                        <div class="col-xl-6 mt-1">
+                                            <h5 class="product-name">@dataModel.nameProduct[i]</h5>
+                                            <text>Вид: @Model.Item1.Name</text>
+                                            @switch(dataModel.form[i])
+                                            {
+                                                case 1:
+                                                    <p>Форма: Рассыпная</p>
+                                                    break;
+                                                case 2:
+                                                    <p>Форма: Прессованная</p>
+                                                    break;
+                                                case 3:
+                                                    <p>Форма: Комковая</p>
+                                                    break;
+                                                case 4:
+                                                    <p>Форма: Гранулированная</p>
+                                                    break;
+                                                case 5:
+                                                    <p>Форма: Связанная</p>
+                                                    break;
+                                            }
+                                            <p class="product-desc scroll-style">@dataModel.descProduct[i]</p>
+                                        </div>
+
+                                        <div class="col-xl-2 mt-1 align-items-center">
+
+                                            <div class="div-pricegram" style="display: flex; align-items: center;">
+                                                <div style="flex-grow: 0; align-items: center;"><h6 class="price1" style="margin-bottom: 0px;">Цена за 1 г</h6></div>
+                                                <div class="pricegram-text" style="display: flex; flex-grow: 1; align-items: center; justify-content: center;"><p class="strike-text price-gram" id="priceGram|@i" style="font-size: 25px; margin-bottom: 0px;">@dataModel.priceGram[i][0].ToString("N2") ₽</p></div>
+                                            </div>
+
+                                            <div class="divListElement" style="height: 220px;">
+
+                                                <div style="height: 33%; display: flex; flex-direction: column; text-align: center;">
+                                                    @if (dataModel.priceProduct[i][0] <= dataModel.priceDiscount[i][0])
+                                                    {
+                                                        <strike style="font-size: 18px; color: red; display: block;" hidden id="priceProduct|@i">@dataModel.priceProduct[i][0].ToString("N2") ₽</strike>
+                                                    }
+                                                    else
+                                                    {
+                                                        <strike style="font-size: 18px; color: red; display: block;" id="priceProduct|@i">@dataModel.priceProduct[i][0].ToString("N2") ₽</strike>
+                                                    }
+                                                    <p class="item-price" style="font-size: 25px; color: #52622b; margin-bottom: 0;" id="priceDiscount|@i">@dataModel.priceDiscount[i][0].ToString("N2") ₽</p>
+                                                </div>
+
+                                                <div class="listElement" style="height: 67%;">
+                                                    <ul class="list-group scroll-style" id="elementList|@i" style="height: 100%; overflow: auto;">
+                                                        @for (int j = 0; j <= dataModel.elementSet[i].Count() - 1; j++)
+                                                        {
+                                                            if (j == 0)
+                                                            {
+                                                                <li class="list-group-item element-selected" id="element|@i|@j" onclick="changeProductSet(this)">@dataModel.elementSet[i][j]</li>
+                                                            }
+                                                            else
+                                                            {
+                                                                <li class="list-group-item element" id="elelemt|@i|@j" onclick="changeProductSet(this)">@dataModel.elementSet[i][j]</li>
+                                                            }
+                                                        }
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                            <button class="btn btn-sm mt-2 w-100 cart-btn" type="button" id="button|@i" value="0" onclick="addToCart(this)">В корзину</button>
+
+                                        </div>
+
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+
+                    @*------------------------------------------------------------------------------------------------------*@
+                </div>
+            </div>
+            @*Панель товаров--------------------------*@
+
+        </div>
+        @*Панель с товарами---------------------------*@
+
+
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    var idProduct = @Html.Raw(Json.Serialize(@dataModel.idProduct));
+    var priceGram = @Html.Raw(Json.Serialize(@dataModel.priceGram));
+    var priceProduct = @Html.Raw(Json.Serialize(@dataModel.priceProduct));
+    var priceDiscount = @Html.Raw(Json.Serialize(@dataModel.priceDiscount));
+
+    function changeProductSet(element)
+    {
+        var array = element.id.split("|");
+        var i = array[1];
+        var j = array[2];
+
+        var list = document.getElementById("elementList|" + i).getElementsByTagName("li");
+
+        for(let k = 0; k < list.length; k++)
+        {
+            if(k == j)
+            {
+                list[k].classList = "list-group-item element-selected";
+                document.getElementById("button|" + i).value = k;
+            }
+            else
+            {
+                list[k].classList = "list-group-item element";
+            }
+        }
+
+        document.getElementById("priceGram|" + i).textContent = (priceGram[i][j].toFixed(2)).replace('.', ',') + " ₽";
+        if(priceGram[i][0] > priceGram[i][j]) document.getElementById("priceGram|" + i).style.color = "#52622b";
+        else document.getElementById("priceGram|" + i).style.color = "black";
+
+        document.getElementById("priceProduct|" + i).textContent = (priceProduct[i][j].toFixed(2)).replace('.', ',') + " ₽";
+        document.getElementById("priceDiscount|" + i).textContent = (priceDiscount[i][j].toFixed(2)).replace('.', ',') + " ₽";
+
+        if (priceProduct[i][j] <= priceDiscount[i][j]) document.getElementById("priceProduct|" + i).hidden = true;
+        else document.getElementById("priceProduct|" + i).hidden = false;
+    }
+
+    function addToCart(btn)
+    {
+        var array = btn.id.split("|");
+        var product = idProduct[array[1]] + "/" + btn.value;
+
+        fetch("/Account/AddToCart?product=" + product, {
+            method: 'POST'
+        })
+            .then((response) => response.text())
+            .then((data) => {
+                if(data == "1")
+                {
+                    btn.textContent = "Добавлено";
+
+                    setTimeout(function () {
+                        btn.textContent = "В корзину";
+                    }, 1000);
+                }
+            })
+    }
+
+</script>

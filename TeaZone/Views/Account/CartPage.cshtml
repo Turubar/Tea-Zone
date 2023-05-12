@@ -1,0 +1,251 @@
+﻿@model (List<long> id, List<byte[]> image, List<string> nameProduct, List<int> type, List<int> form, List<string> elementSet, List<int> countProduct, List<float> productPrice, List<float> productDiscount, List<int> setNumber)?
+
+@{
+    var dataModel = Model.Value;
+}
+
+<section class="min-vh-100" style="background-color: #eee;">
+    <div class="container-fluid h-100 py-5">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-10">
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    @if(dataModel.id.Count() >= 1)
+                    {
+                        <h3 class="fw-normal mb-0 text-black" id="cart">Корзина (@dataModel.id.Count())</h3>
+                    }
+                    else
+                    {
+                        <h3 class="fw-normal mb-0 text-black" id="cart">Корзина (пусто)</h3>
+                    }
+                </div>
+
+                @for (int i = 0; i < dataModel.id.Count; i++)
+                {
+                    <div class="card rounded-3 mb-4" id="productCard|@i">
+                        <div class="card-body p-4">
+                            <div class="row d-flex justify-content-between align-items-center" style="padding-left: 10px;">
+                                @if (dataModel.image[i] != null)
+                                {
+                                    <div class="col-xl-2 col-lg-12 col-md-12 col-sm-8 cart-img" style="background-image: url(data:image/jpg;base64,@(Convert.ToBase64String(dataModel.image[i])));"></div>
+                                }
+                                else
+                                {
+                                    <div class="col-xl-2 col-lg-12 col-md-12"><img src="" class="img-fluid rounded-3" alt="Нет фото"></div>
+                                }
+
+                                <div class="col-xl-3 col-lg-4 col-md-12 text-tovar">
+                                    <p class="lead fw-normal nameProduct" style="color: black; font-size: 22px;">@dataModel.nameProduct[i]</p>
+                                    @switch (dataModel.type[i])
+                                    {
+                                        case 1:
+                                            <p>Вид: Пуэр</p>
+                                            break;
+                                        case 2:
+                                            <p>Вид: Улун</p>
+                                            break;
+                                        case 3:
+                                            <p>Вид: Зеленый чай</p>
+                                            break;
+                                        case 4:
+                                            <p>Вид: Красный чай</p>
+                                            break;
+                                        case 5:
+                                            <p>Вид: Белый чай</p>
+                                            break;
+                                        case 6:
+                                            <p>Вид: Хэй ча</p>
+                                            break;
+                                    }
+                                    @switch (dataModel.form[i])
+                                    {
+                                        case 1:
+                                            <p>Форма: Рассыпная</p>
+                                            break;
+                                        case 2:
+                                            <p>Форма: Прессованная</p>
+                                            break;
+                                        case 3:
+                                            <p>Форма: Комковая</p>
+                                            break;
+                                        case 4:
+                                            <p>Форма: Гранулированная</p>
+                                            break;
+                                        case 5:
+                                            <p>Форма: Связанная</p>
+                                            break;
+                                    }
+                                </div>
+
+                                <div class="col-xl-2 col-lg-3 col-md-12 align-items-center productSet" style="flex-direction: column;">
+
+                                    <div class="text-center">
+                                        <p class="elementSet" style="color: black; font-size: 18px;">@dataModel.elementSet[i]</p>
+                                    </div>
+
+                                    <div>
+                                        <input class="form-control" id="inputCount|@i|@dataModel.id[i]/@dataModel.setNumber[i]" min="1" value="@dataModel.countProduct[i]" type="number" onchange="countProductChange(this)" style="text-align: center;" />
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-2 col-lg-3 col-md-12 priceProduct">
+
+                                    @if (dataModel.productPrice[i] == dataModel.productDiscount[i])
+                                    {
+                                        <h5 class="mb-0" id="productPrice|@i" style="color: black; text-align: center;">@dataModel.productDiscount[i].ToString("N2") ₽</h5>
+                                    }
+                                    else
+                                    {
+                                        <h5 class="mb-0" id="productPrice|@i" style="color: red; text-align: center;"><strike>@dataModel.productPrice[i].ToString("N2") ₽</strike></h5>
+                                        <h5 class="mb-0" id="productDiscount|@i" style="color: #52622b; text-align: center;">@dataModel.productDiscount[i].ToString("N2") ₽</h5>
+                                    }
+
+                                </div>
+
+                                <div class="col-xl-1 col-lg-1 col-md-12 text-center">
+                                    <button type="button" id="deleteProduct|@dataModel.id[i]/@dataModel.setNumber[i]|@i" class="btn" onclick="deleteProduct(this)">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                            <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"></path>
+                                            <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <div class="card rounded-3 mb-4">
+                    <div class="card-body p-4">
+                        <div class="row d-flex justify-content-between align-items-center total-div" style="padding-left: 10px;">
+
+                            <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12 col-12 cart-img-void"></div>
+
+                            <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 col-12"></div>
+
+                            <div class="col-xl-2 col-lg-3 col-md-5 col-sm-5 col-5 align-items-center">
+                                <h5 class="mb-0 text-end" style="color: black; display: block;">Без скидки:</h5>
+                                <h5 class="mb-0 text-end" style="color: #52622b; display: block;">Итого:</h5>
+                            </div>
+
+                            <div class="col-xl-2 col-lg-3 col-md-5 col-sm-5 col-5">
+                                <h5 class="mb-0" id="sumPrice" style="color: black; text-align: center;"><strike>0 ₽</strike></h5>
+                                <h5 class="mb-0" id="sumDiscount" style="color: #52622b; text-align: center;">0 ₽</h5>
+                            </div>
+
+                            <div class="col-xl-1 col-lg-1 col-md-12 col-sm-12 col-12 text-center"></div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+
+    var arrayProductPrice = @Html.Raw(Json.Serialize(@dataModel.productPrice));
+    var arrayProductDiscount = @Html.Raw(Json.Serialize(@dataModel.productDiscount));
+    var arrayCount = @Html.Raw(Json.Serialize(@dataModel.countProduct));
+
+    setTimeout(updatePriceProduct, 10);
+
+    function updatePriceProduct() {
+        var sumPrice = 0;
+        var sumDiscount = 0;
+        var count = 0;
+
+        for (let i = 0; i < arrayProductPrice.length; i++) {
+            if(arrayProductPrice[i] == undefined)
+            {
+                continue;
+            }
+
+            var price = arrayProductPrice[i] * arrayCount[i];
+            var discount = arrayProductDiscount[i] * arrayCount[i];
+
+            document.getElementById("productPrice|" + i).textContent = (price.toFixed(2)).replace('.', ',') + " ₽";
+
+            if (document.getElementById("productDiscount|" + i) !== null) {
+                document.getElementById("productDiscount|" + i).textContent = (discount.toFixed(2)).replace('.', ',') + " ₽";
+            }
+
+            sumPrice += price;
+            sumDiscount += discount;
+            count++;
+        }
+
+        document.getElementById("sumPrice").textContent = (sumPrice.toFixed(2)).replace('.', ',') + " ₽";
+        document.getElementById("sumDiscount").textContent = (sumDiscount.toFixed(2)).replace('.', ',') + " ₽";
+
+        if(count > 0)
+        {
+            document.getElementById("cart").textContent = "Корзина (" + count + ")";
+        }
+        else
+        {
+            document.getElementById("cart").textContent = "Корзина (пусто)";
+        }
+    }
+
+    function countProductChange(input) {
+        var array = input.id.split("|");
+
+        var i = array[1];
+        var count = parseInt(input.value, 10);
+
+        if (typeof count == "number" && Number.isNaN(count) != true) {
+            if (count >= 1 && count <= 100) {
+                input.value = count;
+                arrayCount[i] = count;
+
+                var changeCount = array[2] + "/" + count;
+
+                fetch("/Account/ChangeCountProduct?changeCount=" + changeCount, {
+                    method: 'POST'
+                })
+                    .then((response) => response.text())
+                    .then((data) => {
+                        if (data == "1") {
+                            updatePriceProduct();
+                        }
+                    })
+            }
+            else {
+                input.value = arrayCount[i];
+            }
+        }
+        else {
+            input.value = arrayCount[i];
+        }
+    }
+
+    function deleteProduct(btn) {
+        var array = btn.id.split("|");
+        var deleteProduct = array[1] + "/0";
+
+        fetch("/Account/ChangeCountProduct?changeCount=" + deleteProduct, {
+            method: 'POST'
+        })
+            .then((response) => response.text())
+            .then((data) => {
+                if (data == "1") {
+                    document.getElementById("productCard|" + array[2]).remove();
+
+                    //arrayProductPrice.splice(array[2], 1);
+                    //arrayProductDiscount.splice(array[2], 1);
+                    //arrayCount.splice(array[2], 1);
+
+                    delete arrayProductPrice[array[2]];
+                    delete arrayProductDiscount[array[2]];
+                    delete arrayCount[array[2]];
+
+                    updatePriceProduct();
+                }
+            })
+    }
+
+</script>

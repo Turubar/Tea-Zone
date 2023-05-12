@@ -1,0 +1,3 @@
+protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlite("DataSource=wwwroot\\database\\TeaZoneDB.sqlite");
+
+Scaffold-DbContext "DataSource=wwwroot\database\TeaZoneDB.sqlite" Microsoft.EntityFrameworkCore.Sqlite -OutputDir Models/Entities

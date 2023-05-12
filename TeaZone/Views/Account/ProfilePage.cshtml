@@ -1,0 +1,316 @@
+﻿@model Account?
+
+<section class="min-vh-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+
+                <div class="my-5">
+                    <h3>Профиль</h3>
+                    <hr>
+                </div>
+
+                <div class="file-upload pb-5">
+                    <div class="row gx-5 pb-5">
+
+                        <!-- Данные -->
+                        <div class="col-xxl-8 mb-xxl-0">
+                            <div class="bg-secondary-soft px-4 py-5 rounded">
+                                <div class="row g-3">
+                                    <h4 class="mb-2 mt-0">Ваши данные</h4>
+                                    <!-- Логин -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Логин</label>
+                                        <input type="text" id="loginInput" class="form-control" value="@Model?.Login" disabled>
+                                    </div>
+                                    <!-- Имя -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Имя</label>
+                                        <input type="text" id="nameInput" class="form-control" value="@Model?.Name" disabled>
+                                    </div>
+                                    <!-- Email -->
+                                    <div class="col-md-6">
+                                        @if (@Model?.EmailVerify == "false")
+                                        {
+                                            <label for="inputEmail4" class="form-label" style="color: #dc3545;">Email (Не подтвержден)</label>
+                                            <input type="email" id="emailInput" class="form-control" value="@Model?.Email" disabled>
+                                        }
+                                        else
+                                        {
+                                            <label for="inputEmail4" class="form-label" style="color: #28a745;">Email (Подтвержден)</label>
+                                            <input type="email" id="emailInput" class="form-control" value="@Model?.Email" disabled>
+                                        }
+                                    </div>
+                                    <!-- Подтверждение Email -->
+                                    <div class="col-md-6" id="divEmail">
+                                        @if (@Model?.EmailVerify == "false")
+                                        {
+                                            <button name="confirmEmail" value="@Model?.Email" id="confirmEmailButton" onclick="getCode('confirmEmailButton')" class="btn btn-primary confirmEmailButton">Подтвердить?</button>
+                                        }
+                                    </div>
+
+                                    <div>
+                                        <h4 class="mb-3 pt-3" style="display: inline-block;">Изменить пароль</h4>
+                                        <p id="changePasswordMessage" style="display: inline-block; margin-left: 5px; font-size: 16px;"></p>
+                                    </div>
+                                    @*<form name="changePasswordForm" method="post" asp-action="ChangePassword" asp-controller="Account">*@
+                                    <!-- Старый пароль -->
+                                    <div class="row" style="padding-top: 17px; margin: 0 auto;">
+                                        <div class="col-md-3 div-padding" style="display:inline-block;">
+                                            <label for="exampleInputPassword1" class="form-label">Cтарый пароль</label>
+                                            <input type="password" class="form-control" name="oldPassword" id="oldPasswordId">
+                                        </div>
+                                        <!-- Новый пароль -->
+                                        <div class="col-md-3 div-padding div-top" style="display:inline-block;">
+                                            <label for="exampleInputPassword2" class="form-label">Новый пароль</label>
+                                            <input type="password" class="form-control" name="newPassword" id="newPasswordId">
+                                        </div>
+                                        <!-- Подтвердить новый пароль -->
+                                        <div class="col-md-3 div-padding div-top" style="display:inline-block;">
+                                            <label for="exampleInputPassword3" class="form-label confirmPasswordStyle">Подтвердите пароль</label>
+                                            <input type="password" class="form-control" name="confirmPassword" id="confirmPasswordId">
+                                        </div>
+                                        <!-- Подтвердить -->
+                                        <div class="col-md-3 div-padding" style="display:inline-block;">
+                                            <button class="btn btn-primary w-100" id="changeButtonId" type="submit" onclick="changePassword()" style="margin-top: 34px;">Изменить</button>
+                                        </div>
+                                    </div>
+                                    @*</form>*@
+                                </div> <!-- Row END -->
+                            </div>
+                        </div>
+
+                        <!-- Аватар -->
+                        <div class="col-xxl-4">
+                            <div class="bg-secondary-soft px-4 py-5 rounded">
+                                <div class="row g-3">
+                                    <h4 class="mb-1 mt-0 text-center ">Фото вашего профиля</h4>
+                                    <div class="text-center">
+                                        <!-- Фото -->
+                                        @if (Model?.Avatar != null && Model?.Avatar.Length != 0)
+                                        {
+                                            <div style="background-image: url(data:image/jpg;base64,@(Convert.ToBase64String(Model.Avatar))); background-size: 100% 100%; background-repeat: no-repeat;" class="square position-relative display-2 mb-5" id="pictureBoxFill">
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="square position-relative display-2 mb-5 picture-box" id="pictureBoxNull">
+                                            </div>
+                                        }
+
+                                        <!-- Загрузить/Удалить -->
+                                        <form id="LoadFormAvatar" asp-action="LoadPhoto" asp-controller="Account" method="post" enctype="multipart/form-data" style="display:inline-block;" onsubmit="event.preventDefault();">
+                                            <input name="Avatar" type="file" id="Avatar" class="form-control" hidden onchange="loadAvatar()" />
+                                            <button type="submit" id="addButton" class="btn btn-success-soft" onclick="selectAvatar()">Добавить</button>
+                                        </form>
+                                        <a asp-action="DeletePhoto" asp-controller="Account" onclick="return deleteAvatar()" class="btn btn-danger-soft">Удалить</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+
+    // Подтверждение email
+    function getCode(id) {
+        document.getElementById(id).remove();
+
+        var label = document.createElement("label");
+        label.textContent = "Введите код";
+        label.className = "form-label";
+        document.getElementById('divEmail').appendChild(label);
+
+        var form = document.createElement("form");
+        form.name = "formEmail";
+        form.method = "post";
+        form.id = "formEmail";
+        form.onsubmit = "event.preventDefault()";
+        document.getElementById('divEmail').appendChild(form);
+
+        var input = document.createElement("input");
+        input.type = "text";
+        input.name = "codeInput";
+        input.value = "";
+        input.id = "codeInput";
+        input.className = "form-control codeInput text-center";
+        document.getElementById('divEmail').appendChild(input);
+
+        var button = document.createElement("button");
+        button.type = "submit";
+        button.name = "codeButton";
+        button.id = "codeButton";
+        button.textContent = "Отправить";
+        button.className = "btn btn-primary codeButton"
+        document.getElementById('divEmail').appendChild(button);
+
+        var email = document.getElementById("emailInput").value;
+        fetch("/Account/SendCode?email=" + email, {
+            method: 'POST'
+        })
+            .then((response) => response.text())
+            .then((data) => {
+                button.value = data;
+            })
+
+        button.addEventListener("click", verifyEmail, false);
+    }
+
+    var countError = 0;
+
+    function verifyEmail() {
+        if (document.getElementById("codeButton").value != null && document.getElementById("codeButton").value != "") {
+            var codeButton = document.getElementById("codeButton").value;
+            var codeInput = document.getElementById("codeInput").value;
+
+            if (codeInput != codeButton) {
+                document.getElementById("codeInput").style = "color: #dc3545;"
+                document.getElementById("codeInput").value = "Неверный код";
+                document.getElementById("codeInput").disabled = true;
+                document.getElementById("codeButton").disabled = true;
+                setTimeout(clearInput, 3000);
+
+                countError++;
+                if (countError == 3) {
+                    alert("Вам не удалось подтвердить электронную почту");
+                    window.location.href = "/Account/ProfilePage";
+                }
+
+                return;
+            }
+
+            fetch("/Account/VerifyCode?codeInput=" + codeInput + "&codeButton=" + codeButton, {
+                method: 'POST'
+            })
+                .then((response) => response.text())
+                .then((data) => {
+                    document.getElementById("codeButton").disabled = true;
+                    setTimeout(verifyCode, 2000, data);
+                })
+
+        }
+        else {
+            return verifyEmail();
+        }
+    }
+
+    function verifyCode(resultVerify) {
+        if (resultVerify == "true") {
+            window.location.href = "/Account/ProfilePage";
+        }
+        else {
+            document.getElementById("codeInput").style = "color: #dc3545;"
+            document.getElementById("codeInput").value = "Неверный код";
+            document.getElementById("codeInput").disabled = true;
+            document.getElementById("codeButton").disabled = true;
+            setTimeout(clearInput, 3000);
+
+            countError++;
+            if (countError == 3) {
+                alert("Вам не удалось подтвердить электронную почту");
+                window.location.href = "/Account/ProfilePage";
+            }
+        }
+    }
+
+    function clearInput() {
+        document.getElementById("codeInput").style = "color: black;"
+        document.getElementById("codeInput").value = "";
+        document.getElementById("codeInput").disabled = false;
+        document.getElementById("codeButton").disabled = false;
+    }
+    //-----------------------
+
+    // Загрузка/удаление фото
+    function selectAvatar() {
+        document.getElementById("Avatar").click();
+    }
+
+    function loadAvatar() {
+        var inputFile = document.getElementById("Avatar");
+        if (inputFile.files[0] != null) {
+            document.getElementById("LoadFormAvatar").submit();
+        }
+        else {
+            alert("нет фото");
+        }
+    }
+
+    function deleteAvatar() {
+        if (document.getElementById("pictureBoxNull") != null) {
+            return false;
+        }
+
+        if (document.getElementById("pictureBoxFill") != null) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    //-----------------------
+
+    // Смена пароля
+    function changePassword() {
+        var changeButton = document.getElementById("changeButtonId");
+
+        var oldPassword = document.getElementById("oldPasswordId");
+        var newPassword = document.getElementById("newPasswordId");
+        var confirmPassword = document.getElementById("confirmPasswordId");
+
+        var message = document.getElementById("changePasswordMessage");
+
+        if ((oldPassword.value.length >= 8 && oldPassword.value.length <= 16) && (newPassword.value.length >= 8 && newPassword.value.length <= 16) &&
+            (confirmPassword.value.length >= 8 && confirmPassword.value.length <= 16) && (newPassword.value == confirmPassword.value)) {
+            fetch("/Account/ChangePassword?oldPassword=" + oldPassword.value + "&newPassword=" + newPassword.value + "&confirmPassword=" + confirmPassword.value, {
+                method: 'POST'
+            })
+                .then((response) => response.text())
+                .then((data) => {
+                    if (data == "(Пароль успешно изменен!)") {
+                        clearInput();
+                        message.style.color = "#28a745";
+                        message.textContent = data;
+                        changeButton.disabled = true;
+                        messageDisplay();
+                    }
+                    else {
+                        clearInput();
+                        message.style.color = "red";
+                        message.textContent = data;
+                        changeButton.disabled = true;
+                        messageDisplay();
+                    }
+                })
+        }
+        else {
+            clearInput();
+            message.style.color = "red";
+            message.textContent = "(Поля были заполнены неверно!)";
+            changeButton.disabled = true;
+            messageDisplay();
+        }
+    }
+
+    function clearInput() {
+        document.getElementById("oldPasswordId").value = "";
+        document.getElementById("newPasswordId").value = "";
+        document.getElementById("confirmPasswordId").value = "";
+    }
+
+    function messageDisplay() {
+        setTimeout(function () {
+            document.getElementById("changePasswordMessage").textContent = "";
+            document.getElementById("changeButtonId").disabled = false;
+        }, 3000);
+    }
+    //-------------
+
+</script>
